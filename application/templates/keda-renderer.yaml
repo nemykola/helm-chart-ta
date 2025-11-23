@@ -1,0 +1,26 @@
+{{- if and .Values.renderer.keda.enabled (not .Values.renderer.hpa.enabled) }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}-renderer-keda
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: renderer
+    app.kubernetes.io/part-of: landing-pages
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-renderer
+  pollingInterval: {{ .Values.renderer.keda.pollingInterval }}
+  cooldownPeriod: {{ .Values.renderer.keda.cooldownPeriod }}
+  minReplicaCount: {{ .Values.renderer.keda.minReplicaCount }}
+  maxReplicaCount: {{ .Values.renderer.keda.maxReplicaCount }}
+  idleReplicaCount: {{ .Values.renderer.keda.idleReplicaCount }}
+  triggers:
+    - type: {{ .Values.renderer.keda.trigger.type }}
+      metadata:
+{{- range $k, $v := .Values.renderer.keda.trigger.metadata }}
+        {{ $k }}: "{{ $v }}"
+{{- end }}
+{{- end }}

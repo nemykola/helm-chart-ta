@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-publisher
+  namespace: {{ .Values.environment.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: publisher
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector: {}

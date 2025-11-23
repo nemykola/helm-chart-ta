@@ -1,0 +1,42 @@
+editor:
+  image:
+    tag: "1.0.0"
+  replicaCount: 3
+  namespace: lp-prod
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  hpa:
+    enabled: false
+  keda:
+    enabled: true
+
+renderer:
+  replicaCount: 3
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1  
+  namespace: lp-prod
+  hpa:
+    enabled: false
+  keda:
+    enabled: true
+
+assets:
+  namespace: lp-prod
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  replicaCount: 3
+
+publisher:
+  namespace: lp-prod
+  schedule: "*/2 * * * *"
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 30s

@@ -1,0 +1,47 @@
+global:
+  host: lp.dev.example.internal
+  logLevel: debug
+
+
+editor:
+  image:
+    tag: "dev"
+  replicaCount: 1
+  namespace: lp-dev
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  keda:
+    enabled: false
+  hpa:
+    enabled: true
+
+renderer:
+  replicaCount: 1
+  namespace: lp-dev
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  keda:
+    enabled: false
+  hpa:
+    enabled: true
+
+assets:
+  replicaCount: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  namespace: lp-dev
+
+publisher:
+  namespace: lp-dev
+  schedule: "*/1 * * * *"
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 30s

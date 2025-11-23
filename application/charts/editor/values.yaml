@@ -1,0 +1,38 @@
+replicaCount: 2
+image:
+  repository: ghcr.io/example/editor
+  tag: "latest"
+  pullPolicy: IfNotPresent
+service:
+  port: 8080
+config:
+  LOG_LEVEL: info
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+keda:
+  enabled: false
+  pollingInterval: 15
+  cooldownPeriod: 60
+  minReplicaCount: 2
+  maxReplicaCount: 8
+  idleReplicaCount: 0
+  trigger:
+    type: cpu
+    metadata:
+      value: "70" 
+hpa:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70

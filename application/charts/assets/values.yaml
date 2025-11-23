@@ -1,0 +1,25 @@
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "stable"
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8080
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+config:
+  LOG_LEVEL: info
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"

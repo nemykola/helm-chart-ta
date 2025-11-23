@@ -1,0 +1,17 @@
+schedule: "*/5 * * * *"
+
+image:
+  repository: ghcr.io/example/publisher
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+config:
+  LOG_LEVEL: info
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"

@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-publisher
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: publisher
+    app.kubernetes.io/name: publisher
+    app.kubernetes.io/part-of: landing-pages
+spec:
+  schedule: {{ .Values.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: publisher
+            app.kubernetes.io/name: publisher
+            app.kubernetes.io/part-of: landing-pages
+        spec:
+          serviceAccountName: publisher
+          restartPolicy: Never
+          containers:
+            - name: publisher
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: LOG_LEVEL
+                  value: {{ .Values.config.LOG_LEVEL | quote }}
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}

@@ -1,0 +1,29 @@
+environment:
+  name: dev
+  namespace: lp-dev
+
+services:
+  - editor
+  - renderer
+  - assets
+  - publisher
+
+webServices:
+  - editor
+  - renderer
+  - assets
+
+quota:
+  pods: "50"
+  requestsCpu: "2"
+  requestsMemory: "4Gi"
+  limitsCpu: "4"
+  limitsMemory: "8Gi"
+
+limits:
+  default:
+    cpu: "500m"
+    memory: "512Mi"
+  defaultRequest:
+    cpu: "100m"
+    memory: "128Mi"

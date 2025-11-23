@@ -1,0 +1,44 @@
+global:
+  host: lp.example.internal
+  logLevel: info
+
+editor:
+  replicaCount: 2
+  image:
+    repository: ghcr.io/example/editor
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    port: 8080
+
+
+renderer:
+  replicaCount: 2
+  image:
+    repository: ghcr.io/example/renderer
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    port: 8080
+
+assets:
+  replicaCount: 2
+  image:
+    repository: nginx
+    tag: "stable"
+    pullPolicy: IfNotPresent
+  service:
+    port: 8080
+  
+
+publisher:
+  schedule: "*/5 * * * *"
+  image:
+    repository: ghcr.io/example/publisher
+    tag: “latest”
+    pullPolicy: IfNotPresent
+
+monitoring:
+  serviceMonitor:
+    enabled: false
+    interval: 30s

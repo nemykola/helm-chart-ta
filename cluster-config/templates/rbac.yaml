@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: lp-app-role
+  namespace: {{ .Values.environment.namespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "configmaps", "secrets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get", "list", "watch", "create", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: lp-app-rolebinding
+  namespace: {{ .Values.environment.namespace }}
+subjects:
+{{- range .Values.services }}
+  - kind: ServiceAccount
+    name: {{ . }}
+    namespace: {{ $.Values.environment.namespace }}
+{{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: lp-app-role

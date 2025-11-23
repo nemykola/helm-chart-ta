@@ -1,0 +1,29 @@
+environment:
+  name: prod
+  namespace: lp-prod
+
+services:
+  - editor
+  - renderer
+  - assets
+  - publisher
+
+webServices:
+  - editor
+  - renderer
+  - assets
+
+quota:
+  pods: "100"
+  requestsCpu: "8"
+  requestsMemory: "16Gi"
+  limitsCpu: "16"
+  limitsMemory: "32Gi"
+
+limits:
+  default:
+    cpu: "1000m"
+    memory: "1Gi"
+  defaultRequest:
+    cpu: "250m"
+    memory: "256Mi"
